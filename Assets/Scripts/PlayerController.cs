@@ -5,22 +5,22 @@ using TMPro;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody rb;
-    private int count;
+    private int score;
 
     private float movementX;
     private float movementY;
 
     public float speed = 0;
 
-    public TextMeshProUGUI countText;
+    public TextMeshProUGUI scoreText;
     public GameObject winTextObject;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        count = 0;
-        SetCountText();
+        score = 0;
+        SetScoreText();
         winTextObject.SetActive(false);
     }
 
@@ -32,11 +32,11 @@ public class PlayerController : MonoBehaviour
         movementY = movementVector.y;
     }
 
-    void SetCountText()
+    void SetScoreText()
     {
-        countText.text = "Count: " + count.ToString();
+        scoreText.text = "Score: " + score.ToString();
 
-        if (count >= 12)
+        if (score >= 7500)
         {
             winTextObject.SetActive(true);
             Destroy(GameObject.FindGameObjectWithTag("Enemy"));
@@ -56,8 +56,8 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("PickUp"))
         {
             other.gameObject.SetActive(false);
-            count = count + 1;
-            SetCountText();
+            score = score + other.gameObject.GetComponent<Rotator>().scoreValue;
+            SetScoreText();
         }
     }
 
