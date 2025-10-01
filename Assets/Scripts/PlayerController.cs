@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody rb;
     private int score;
+    private int seconds;
 
     private float movementX;
     private float movementY;
@@ -13,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public float speed = 0;
 
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI timerText;
     public GameObject winTextObject;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -20,8 +23,13 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         score = 0;
+        seconds = 90;
         SetScoreText();
+        SetTimerText();
         winTextObject.SetActive(false);
+
+        StartCoroutine(CountDown());
+        
     }
 
     void OnMove(InputValue movementValue)
@@ -40,6 +48,18 @@ public class PlayerController : MonoBehaviour
         {
             winTextObject.SetActive(true);
             Destroy(GameObject.FindGameObjectWithTag("Enemy"));
+        }
+    }
+
+    void SetTimerText()
+    {
+        timerText.text = "Time: " + seconds.ToString();
+        if (seconds <= 0)
+        {
+            Destroy(gameObject);
+
+            winTextObject.gameObject.SetActive(true);
+            winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";
         }
     }
 
@@ -69,6 +89,15 @@ public class PlayerController : MonoBehaviour
 
             winTextObject.gameObject.SetActive(true);
             winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";
+        }
+    }
+
+    IEnumerator CountDown()
+    {
+        while (true)
+        {
+            seconds = seconds - 1;
+            SetTimerText();
         }
     }
 }
