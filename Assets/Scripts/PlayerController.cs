@@ -56,6 +56,8 @@ public class PlayerController : MonoBehaviour
         timerText.text = "Time: " + seconds.ToString();
         if (seconds <= 0)
         {
+            StopCoroutine(CountDown());
+
             Destroy(gameObject);
 
             winTextObject.gameObject.SetActive(true);
