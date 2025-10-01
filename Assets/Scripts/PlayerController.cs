@@ -98,8 +98,7 @@ public class PlayerController : MonoBehaviour
     {
         while (true)
         {
-            seconds = seconds - 1;
-            SetTimerText();
+            seconds--;
         }
     }
 }
