@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 using System.Collections;
+using UnityEditor.Experimental.GraphView;
 
 public class PlayerController : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class PlayerController : MonoBehaviour
     public TextMeshProUGUI timerText;
     public GameObject winTextObject;
 
+    private Coroutine countDown;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -28,8 +31,7 @@ public class PlayerController : MonoBehaviour
         SetTimerText();
         winTextObject.SetActive(false);
 
-        StartCoroutine(CountDown());
-        
+        countDown = StartCoroutine(CountDown());
     }
 
     void OnMove(InputValue movementValue)
@@ -40,6 +42,18 @@ public class PlayerController : MonoBehaviour
         movementY = movementVector.y;
     }
 
+    IEnumerator CountDown()
+    {
+        while(seconds > 0)
+        {
+            yield return new WaitForSeconds(1f);
+
+            seconds = seconds - 1;
+
+            SetTimerText();
+        }
+    }
+    
     void SetScoreText()
     {
         scoreText.text = "Score: " + score.ToString();
@@ -48,6 +62,7 @@ public class PlayerController : MonoBehaviour
         {
             winTextObject.SetActive(true);
             Destroy(GameObject.FindGameObjectWithTag("Enemy"));
+            StopCoroutine(countDown);
         }
     }
 
@@ -56,8 +71,6 @@ public class PlayerController : MonoBehaviour
         timerText.text = "Time: " + seconds.ToString();
         if (seconds <= 0)
         {
-            StopCoroutine(CountDown());
-
             Destroy(gameObject);
 
             winTextObject.gameObject.SetActive(true);
@@ -71,6 +84,8 @@ public class PlayerController : MonoBehaviour
         Vector3 movement = new Vector3(movementX, 0.0f, movementY);
 
         rb.AddForce(movement * speed);
+
+        CountDown();
     }
 
     void OnTriggerEnter(Collider other)
@@ -91,14 +106,9 @@ public class PlayerController : MonoBehaviour
 
             winTextObject.gameObject.SetActive(true);
             winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";
-        }
-    }
+            StopCoroutine(countDown);
 
-    IEnumerator CountDown()
-    {
-        while (true)
-        {
-            seconds--;
         }
     }
+    
 }
