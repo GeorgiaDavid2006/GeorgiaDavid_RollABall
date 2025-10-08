@@ -2635,7 +2635,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4861547fb139bb641bd216cc83bc0f8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 2755453}
+  player: {fileID: 2755446}
   startButton: {fileID: 598813150}
   score: 0
   seconds: 0

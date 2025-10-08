@@ -1,12 +1,11 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
-    public PlayerController player;
+    public GameObject player;
 
     public Button startButton;
 
@@ -19,8 +18,6 @@ public class UIController : MonoBehaviour
     public GameObject timerText;
     public GameObject winTextObject;
 
-    private bool isGameActive = false;
-
     public Coroutine countDown;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -30,10 +27,7 @@ public class UIController : MonoBehaviour
         seconds = 90;
 
         startButton = GetComponent<Button>();
-        startButton.onClick.AddListener(StartGame);
-
-        winTextObject.gameObject.SetActive(false);
-
+        
         countDown = StartCoroutine(CountDown());
     }
 
@@ -73,17 +67,15 @@ public class UIController : MonoBehaviour
         timerText.GetComponent<TextMeshProUGUI>().text = "Time: " + seconds.ToString();
         if (seconds <= 0)
         {
-            Destroy(gameObject);
-
             winTextObject.gameObject.SetActive(true);
             winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";
+
+            player.SetActive(false);
         }
     }
 
     public void StartGame()
     {
-        isGameActive = true;
-
         menuText.gameObject.SetActive(false);
         Level.gameObject.SetActive(true);
         scoreText.gameObject.SetActive(true);

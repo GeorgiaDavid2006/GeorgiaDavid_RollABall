@@ -20,8 +20,6 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-
-        uiController = GetComponent<UIController>();
     }
 
     void OnMove(InputValue movementValue)
@@ -38,17 +36,16 @@ public class PlayerController : MonoBehaviour
         Vector3 movement = new Vector3(movementX, 0.0f, movementY);
 
         rb.AddForce(movement * speed);
-
-        uiController.CountDown();
     }
 
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("PickUp"))
         {
-            other.gameObject.SetActive(false);
             uiController.score = uiController.score + other.gameObject.GetComponent<Rotator>().scoreValue;
             uiController.SetScoreText();
+
+            other.gameObject.SetActive(false);
         }
     }
 
@@ -56,11 +53,11 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            Destroy(gameObject);
-
             uiController.winTextObject.gameObject.SetActive(true);
             uiController.winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";
             StopCoroutine(uiController.countDown);
+
+            gameObject.SetActive(false);
         }
     }
    
