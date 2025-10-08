@@ -7,40 +7,25 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody rb;
-    private int score;
-    private int seconds;
+    public UIController uiController;
 
+    private Rigidbody rb;
+    
     private float movementX;
     private float movementY;
 
     public float speed = 0;
 
-    public GameObject menuText;
-    public GameObject scoreText;
-    public GameObject timerText;
-    public GameObject winTextObject;
-
-    public Button startButton;
-
-    public GameObject Level;
-
-    private Coroutine countDown;
-
-    private bool isGameActive = false;
+    public Coroutine countDown;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        score = 0;
-        seconds = 90;
-        SetScoreText();
-        SetTimerText();
-        winTextObject.SetActive(false);
 
-        startButton = GetComponent<Button>();
-        startButton.onClick.AddListener(StartGame);
+        countDown = StartCoroutine(CountDown());
+
+        uiController = GetComponent<UIController>();
     }
 
     void OnMove(InputValue movementValue)
@@ -53,40 +38,18 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator CountDown()
     {
-        while(seconds > 0)
+
+        Debug.Log("Timer Start");
+        while(uiController.seconds > 0)
         {
             yield return new WaitForSeconds(1f);
 
-            seconds = seconds - 1;
+            uiController.seconds = uiController.seconds - 1;
 
-            SetTimerText();
+            uiController.SetTimerText();
         }
     }
-    
-    void SetScoreText()
-    {
-        scoreText.GetComponent<TextMeshProUGUI>().text = "Score: " + score.ToString();
-
-        if (score >= 7500)
-        {
-            winTextObject.SetActive(true);
-            Destroy(GameObject.FindGameObjectWithTag("Enemy"));
-            StopCoroutine(countDown);
-        }
-    }
-
-    void SetTimerText()
-    {
-        timerText.GetComponent<TextMeshProUGUI>().text = "Time: " + seconds.ToString();
-        if (seconds <= 0)
-        {
-            Destroy(gameObject);
-
-            winTextObject.gameObject.SetActive(true);
-            winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";
-        }
-    }
-
+     
     // Update is called once per frame
     private void FixedUpdate()
     {
@@ -97,25 +60,13 @@ public class PlayerController : MonoBehaviour
         CountDown();
     }
 
-    public void StartGame()
-    {
-        isGameActive = true;
-
-        menuText.gameObject.SetActive(false);
-        Level.gameObject.SetActive(true);
-        scoreText.gameObject.SetActive(true);
-        timerText.gameObject.SetActive(true);
-
-        countDown = StartCoroutine(CountDown());
-    }
-
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("PickUp"))
         {
             other.gameObject.SetActive(false);
-            score = score + other.gameObject.GetComponent<Rotator>().scoreValue;
-            SetScoreText();
+            uiController.score = uiController.score + other.gameObject.GetComponent<Rotator>().scoreValue;
+            uiController.SetScoreText();
         }
     }
 
@@ -125,8 +76,8 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(gameObject);
 
-            winTextObject.gameObject.SetActive(true);
-            winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";
+            uiController.winTextObject.gameObject.SetActive(true);
+            uiController.winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";
             StopCoroutine(countDown);
         }
     }
