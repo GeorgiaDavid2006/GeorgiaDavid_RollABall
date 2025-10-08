@@ -16,14 +16,10 @@ public class PlayerController : MonoBehaviour
 
     public float speed = 0;
 
-    public Coroutine countDown;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-
-        countDown = StartCoroutine(CountDown());
 
         uiController = GetComponent<UIController>();
     }
@@ -36,20 +32,6 @@ public class PlayerController : MonoBehaviour
         movementY = movementVector.y;
     }
 
-    IEnumerator CountDown()
-    {
-
-        Debug.Log("Timer Start");
-        while(uiController.seconds > 0)
-        {
-            yield return new WaitForSeconds(1f);
-
-            uiController.seconds = uiController.seconds - 1;
-
-            uiController.SetTimerText();
-        }
-    }
-     
     // Update is called once per frame
     private void FixedUpdate()
     {
@@ -57,7 +39,7 @@ public class PlayerController : MonoBehaviour
 
         rb.AddForce(movement * speed);
 
-        CountDown();
+        uiController.CountDown();
     }
 
     void OnTriggerEnter(Collider other)
@@ -70,7 +52,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
@@ -78,7 +60,7 @@ public class PlayerController : MonoBehaviour
 
             uiController.winTextObject.gameObject.SetActive(true);
             uiController.winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";
-            StopCoroutine(countDown);
+            StopCoroutine(uiController.countDown);
         }
     }
    

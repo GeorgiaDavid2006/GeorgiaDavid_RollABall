@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
@@ -20,19 +21,39 @@ public class UIController : MonoBehaviour
 
     private bool isGameActive = false;
 
+    public Coroutine countDown;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        score = 0;
+        seconds = 90;
+
         startButton = GetComponent<Button>();
         startButton.onClick.AddListener(StartGame);
 
         winTextObject.gameObject.SetActive(false);
+
+        countDown = StartCoroutine(CountDown());
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public IEnumerator CountDown()
+    {
+        Debug.Log("Timer Start");
+        while (seconds > 0)
+        {
+            yield return new WaitForSeconds(1f);
+
+            seconds = seconds - 1;
+
+            SetTimerText();
+        }
     }
 
     public void SetScoreText()
@@ -43,7 +64,7 @@ public class UIController : MonoBehaviour
         {
             winTextObject.SetActive(true);
             Destroy(GameObject.FindGameObjectWithTag("Enemy"));
-            StopCoroutine(player.countDown);
+            StopCoroutine(countDown);
         }
     }
 
@@ -67,5 +88,8 @@ public class UIController : MonoBehaviour
         Level.gameObject.SetActive(true);
         scoreText.gameObject.SetActive(true);
         timerText.gameObject.SetActive(true);
+
+        SetScoreText();
+        SetTimerText();
     }
 }
