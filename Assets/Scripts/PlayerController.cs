@@ -55,9 +55,11 @@ public class PlayerController : MonoBehaviour
         {
             uiController.winTextObject.gameObject.SetActive(true);
             uiController.winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";
-            StopCoroutine(uiController.countDown);
+            //StopCoroutine(uiController.countDown);
 
             gameObject.SetActive(false);
+
+            uiController.GameOver();
         }
     }
    

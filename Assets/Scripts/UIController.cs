@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Reflection;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,6 +20,8 @@ public class UIController : MonoBehaviour
     public GameObject timerText;
     public GameObject winTextObject;
 
+    public bool isGameActive = false;
+
     public Coroutine countDown;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -28,18 +32,35 @@ public class UIController : MonoBehaviour
 
         startButton = GetComponent<Button>();
         
-        countDown = StartCoroutine(CountDown());
+        //countDown = StartCoroutine(CountDown());
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        CountDownTImer();
     }
 
+    private void CountDownTImer()
+    {
+        if(isGameActive == true)
+        {
+            seconds -= Time.deltaTime;
+
+            SetTimerText();
+
+            if (seconds <= 0)
+            {
+                GameOver();
+            }
+        }
+
+    }
+
+    /*
     public IEnumerator CountDown()
     {
-        Debug.Log("Timer Start");
+        //Debug.Log("Timer Start");
         while (seconds > 0)
         {
             yield return new WaitForSeconds(1f);
@@ -49,6 +70,7 @@ public class UIController : MonoBehaviour
             SetTimerText();
         }
     }
+    */
 
     public void SetScoreText()
     {
@@ -58,21 +80,17 @@ public class UIController : MonoBehaviour
         {
             winTextObject.SetActive(true);
             Destroy(GameObject.FindGameObjectWithTag("Enemy"));
-            StopCoroutine(countDown);
+            //StopCoroutine(countDown);
         }
     }
 
     public void SetTimerText()
     {
-        timerText.GetComponent<TextMeshProUGUI>().text = "Time: " + seconds.ToString();
-        if (seconds <= 0)
-        {
-            winTextObject.gameObject.SetActive(true);
-            winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";
-
-            player.SetActive(false);
-        }
+        timerText.GetComponent<TextMeshProUGUI>().text = "Time: " + ((int)seconds).ToString();
+  
     }
+
+
 
     public void StartGame()
     {
@@ -83,5 +101,20 @@ public class UIController : MonoBehaviour
 
         SetScoreText();
         SetTimerText();
+
+        isGameActive = true;
+    }
+
+    public void GameOver()
+    {
+        //StopCoroutine(countDown);
+
+
+        winTextObject.gameObject.SetActive(true);
+        winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";
+        
+        player.SetActive(false);
+
+        isGameActive = false;
     }
 }
