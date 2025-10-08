@@ -53,10 +53,6 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            uiController.winTextObject.gameObject.SetActive(true);
-            uiController.winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";
-            //StopCoroutine(uiController.countDown);
-
             gameObject.SetActive(false);
 
             uiController.GameOver();
