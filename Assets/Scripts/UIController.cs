@@ -38,10 +38,10 @@ public class UIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CountDownTImer();
+        CountDownTimer();
     }
 
-    private void CountDownTImer()
+    private void CountDownTimer()
     {
         if(isGameActive == true)
         {
@@ -57,20 +57,6 @@ public class UIController : MonoBehaviour
 
     }
 
-    /*
-    public IEnumerator CountDown()
-    {
-        //Debug.Log("Timer Start");
-        while (seconds > 0)
-        {
-            yield return new WaitForSeconds(1f);
-
-            seconds = seconds - 1;
-
-            SetTimerText();
-        }
-    }
-    */
 
     public void SetScoreText()
     {
@@ -80,7 +66,7 @@ public class UIController : MonoBehaviour
         {
             winTextObject.SetActive(true);
             Destroy(GameObject.FindGameObjectWithTag("Enemy"));
-            //StopCoroutine(countDown);
+            isGameActive = false;
         }
     }
 
