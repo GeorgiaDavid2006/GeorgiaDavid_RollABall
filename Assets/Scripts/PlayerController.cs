@@ -1,9 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using TMPro;
-using System.Collections;
-using UnityEditor.Experimental.GraphView;
-using UnityEngine.UI;
+
 
 public class PlayerController : MonoBehaviour
 {
