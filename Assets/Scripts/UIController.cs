@@ -14,6 +14,9 @@ public class UIController : MonoBehaviour
     public int score;
     public float seconds;
 
+    public int maxScore;
+    public int maxSeconds;
+
     public GameObject menuText;
     public GameObject Level;
     public GameObject scoreText;
@@ -28,7 +31,7 @@ public class UIController : MonoBehaviour
     void Start()
     {
         score = 0;
-        seconds = 90;
+        seconds = maxSeconds;
 
         startButton = GetComponent<Button>();
         
@@ -62,7 +65,7 @@ public class UIController : MonoBehaviour
     {
         scoreText.GetComponent<TextMeshProUGUI>().text = "Score: " + score.ToString();
 
-        if (score >= 7500)
+        if (score >= maxScore)
         {
             winTextObject.SetActive(true);
             Destroy(GameObject.FindGameObjectWithTag("Enemy"));
