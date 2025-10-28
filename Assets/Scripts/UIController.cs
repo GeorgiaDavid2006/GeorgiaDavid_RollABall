@@ -109,6 +109,7 @@ public class UIController : MonoBehaviour
 
         winTextObject.gameObject.SetActive(true);
         winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";
+        continueButton.gameObject.SetActive(false);
         
         player.SetActive(false);
 
