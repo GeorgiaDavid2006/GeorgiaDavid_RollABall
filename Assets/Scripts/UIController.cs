@@ -4,12 +4,14 @@ using System.Reflection;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
     public GameObject player;
 
     public Button startButton;
+    public Button continueButton;
 
     public int score;
     public float seconds;
@@ -92,6 +94,12 @@ public class UIController : MonoBehaviour
         SetTimerText();
 
         isGameActive = true;
+    }
+
+    public void NextLevel()
+    {
+        winTextObject.SetActive(false);
+        SceneManager.LoadScene("Level2");
     }
 
     public void GameOver()

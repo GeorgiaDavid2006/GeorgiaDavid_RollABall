@@ -1911,12 +1911,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 889936927}
   startButton: {fileID: 0}
+  continueButton: {fileID: 0}
   score: 0
   seconds: 0
   maxScore: 21600
   maxSeconds: 120
   menuText: {fileID: 0}
-  Level: {fileID: 0}
+  Level: {fileID: 1399216070}
   scoreText: {fileID: 1983564309}
   timerText: {fileID: 379786920}
   winTextObject: {fileID: 3757108}
