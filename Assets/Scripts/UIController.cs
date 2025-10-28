@@ -99,7 +99,7 @@ public class UIController : MonoBehaviour
     public void NextLevel()
     {
         winTextObject.SetActive(false);
-        SceneManager.LoadScene("Level2");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void GameOver()
