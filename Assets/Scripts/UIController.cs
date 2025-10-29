@@ -12,6 +12,8 @@ public class UIController : MonoBehaviour
 
     public Button startButton;
     public Button continueButton;
+    public Button howToPlayButton;
+    public Button closeButton;
 
     public int score;
     public float seconds;
@@ -24,6 +26,7 @@ public class UIController : MonoBehaviour
     public GameObject scoreText;
     public GameObject timerText;
     public GameObject winTextObject;
+    public GameObject tutorialTextObject;
 
     public bool isGameActive = false;
 
@@ -78,10 +81,7 @@ public class UIController : MonoBehaviour
     public void SetTimerText()
     {
         timerText.GetComponent<TextMeshProUGUI>().text = "Time: " + ((int)seconds).ToString();
-  
     }
-
-
 
     public void StartGame()
     {
@@ -100,6 +100,18 @@ public class UIController : MonoBehaviour
     {
         winTextObject.SetActive(false);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    public void DisplayTutorial()
+    {
+        menuText.SetActive(false);
+        tutorialTextObject.SetActive(true);
+    }
+
+    public void CloseTutorial()
+    {
+        tutorialTextObject.SetActive(false);
+        menuText.SetActive(true);
     }
 
     public void GameOver()
