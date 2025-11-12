@@ -47,6 +47,11 @@ public class UIController : MonoBehaviour
     void Update()
     {
         CountDownTimer();
+
+        if (player.transform.position.y < -15)
+        {
+            GameOver();
+        }
     }
 
     private void CountDownTimer()
