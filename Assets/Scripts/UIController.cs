@@ -14,6 +14,7 @@ public class UIController : MonoBehaviour
     public Button continueButton;
     public Button howToPlayButton;
     public Button closeButton;
+    public Button restartButton;
 
     public int score;
     public float seconds;
@@ -127,9 +128,18 @@ public class UIController : MonoBehaviour
         winTextObject.gameObject.SetActive(true);
         winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";
         continueButton.gameObject.SetActive(false);
+        restartButton.gameObject.SetActive(true);
         
         player.SetActive(false);
 
         isGameActive = false;
+    }
+
+    public void RestartLevel()
+    {
+        winTextObject.gameObject.SetActive(false);
+        restartButton.gameObject.SetActive(false);
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
