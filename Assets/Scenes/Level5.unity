@@ -1562,7 +1562,7 @@ MonoBehaviour:
   score: 0
   seconds: 0
   maxScore: 37500
-  maxSeconds: 210
+  maxSeconds: 180
   menuText: {fileID: 0}
   Level: {fileID: 2023134140}
   scoreText: {fileID: 1569542840}
